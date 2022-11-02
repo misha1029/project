@@ -1,0 +1,7 @@
+.header {
+	@apply flex items-center justify-between mt-8;
+
+	> button {
+		@apply bg-purple-800 bg-opacity-80;
+	}
+}
