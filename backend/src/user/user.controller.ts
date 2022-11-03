@@ -38,46 +38,15 @@ export class UserController {
 		return this.userService.updateProfile(_id, data)
 	}
 
-/* 	@Get('profile/favorites')
-	@Auth()
-	async getFavorites(@User('_id') _id: string) {
-		return this.userService.getFavoriteMovies(_id)
-	}
-
-	@Post('profile/favorites')
-	@HttpCode(200)
-	@Auth()
-	async toggleFavorite(
-		@Body('movieId', IdValidationPipe) movieId: Types.ObjectId,
-		@User() user: UserModel
-	) {
-		return this.userService.toggleFavorite(movieId, user)
-	} */
-
 	@Get('count')
 	async getCountUsers() {
 		return this.userService.getCount()
-	}
-
-	@Get()
-	async getUsers(@Query('searchTerm') searchTerm?: string) {
-		return this.userService.getAll(searchTerm)
 	}
 
 	@Get(':id')
 	async getUser(@Param('id', IdValidationPipe) id: string) {
 		return this.userService.byId(id)
 	}
-
-/* 	@UsePipes(new ValidationPipe())
-	@Put(':id')
-	@HttpCode(200)
-	async updateUser(
-		@Param('id', IdValidationPipe) id: string,
-		@Body() data: UpdateDto
-	) {
-		return this.userService.updateProfile(id, data)
-	} */
 
 	@Delete(':id')
 	async delete(@Param('id', IdValidationPipe) id: string) {

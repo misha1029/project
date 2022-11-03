@@ -1,10 +1,18 @@
-import { IsString, IsArray } from 'class-validator'
+/* import { IsString } from 'class-validator'
 
 export class CreateCategoryDto {
 	@IsString()
 	text: string
 
-	@IsArray()
-	@IsString({ each: true })
+	@IsString()
 	projects?: string[]
+} */
+import { IsString } from 'class-validator'
+
+export class CreateCategoryDto {
+  @IsString()
+  text: string
+
+  @IsString()
+  projectId: string
 }

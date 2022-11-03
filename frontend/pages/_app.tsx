@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: TypeAppProps) {
 
 	return (
 		<>
-			{ loaded && (
+			{loaded && (
 				<MainProvaiders Component={Component}>
 					<Component {...pageProps} />
 				</MainProvaiders>

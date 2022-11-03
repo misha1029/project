@@ -1,4 +1,4 @@
-import {ProjectInformation} from 'components/screens/admin/ProjectInformation'
+import { ProjectInformation } from 'components/screens/project/ProjectInformation'
 import React, { FC } from 'react'
 import { NextPageAuth } from 'shared/types/auth.types'
 

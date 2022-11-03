@@ -3,9 +3,11 @@ import React, { FC } from 'react'
 import { Meta } from 'utils/meta/Meta'
 
 import { HeaderProject } from '../HeaderProject/HeaderProject'
-import { Table } from '../AdminTable/Table'
+import { Table } from '../Table/Table'
 
 import { useProjects } from './useProjects'
+import { useRouter } from 'next/router'
+import { getAdminUrl } from 'config/url.config'
 
 export const ProjectList: FC = () => {
 	const {
@@ -13,17 +15,21 @@ export const ProjectList: FC = () => {
 		isLoading,
 		data,
 		deleteAsync,
-		createAsync,
 	} = useProjects()
-	console.log(data, 'datadatadatadata')
+
+	const {push} = useRouter()
 	
+	const openCreateProjectPage = () => {
+		push(getAdminUrl('create'))
+	}
+
 	return (
 		<Meta title="Projects">
 			<Heading title="Projects" />
 
 			<HeaderProject
 				handleSearch={handleSearch}
-				onClick={createAsync}
+				onClick={openCreateProjectPage}
 			/>
 
 			<Table

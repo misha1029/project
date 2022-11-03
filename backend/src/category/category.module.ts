@@ -4,7 +4,6 @@ import { CategoryController } from './category.controller'
 
 import { CategoryService } from './category.servise'
 import { CategoryEntity } from './category.entity'
-import { ProjectModel } from 'src/project/project.model'
 
 @Module({
 	controllers: [CategoryController],
@@ -17,7 +16,6 @@ import { ProjectModel } from 'src/project/project.model'
 				},
 			},
 		]),
-		ProjectModel,
 	],
 	providers: [CategoryService],
 	exports: [CategoryService],

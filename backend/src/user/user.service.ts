@@ -41,53 +41,8 @@ export class UserService {
 		throw new NotFoundException('User not found')
 	}
 
-/* 	async getFavoriteMovies(_id: string) {
-		return this.userModel
-			.findById(_id, 'favorites')
-			.populate({
-				path: 'favorites',
-				populate: {
-					path: 'genres',
-				},
-			})
-			.exec()
-			.then((data) => {
-				return data.favorites
-			})
-	} */
-
-/* 	async toggleFavorite(movieId: Types.ObjectId, user: UserModel) {
-		const { favorites, _id } = user
-
-		await this.userModel.findByIdAndUpdate(_id, {
-			favorites: favorites.includes(movieId)
-				? favorites.filter((id) => String(id) !== String(movieId))
-				: [...favorites, movieId],
-		})
-	} */
-
 	async getCount() {
 		return this.userModel.find().count().exec()
-	}
-
-	async getAll(searchTerm?: string): Promise<DocumentType<UserModel>[]> {
-		let options = {}
-
-		if (searchTerm) {
-			options = {
-				$or: [
-					{
-						email: new RegExp(searchTerm, 'i'),
-					},
-				],
-			}
-		}
-
-		return this.userModel
-			.find(options)
-			.select('-password -updatedAt -__v')
-			.sort({ createdAt: 'desc' })
-			.exec()
 	}
 
 	async delete(id: string): Promise<DocumentType<UserModel> | null> {

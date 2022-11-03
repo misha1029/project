@@ -22,22 +22,23 @@ export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
 
 	@Get()
+	@Auth()
 	async getAll() {
 		return this.categoryService.getAll()
 	}
 
-
 	@Post()
+	@Auth()
 	@HttpCode(200)
-	async create(
-		@Body() dto: CreateCategoryDto) {
-		const createProject = await this.categoryService.create(dto)
-		if (!createProject) throw new NotFoundException('Category not found')
-		return createProject
+	async create(@Body() dto: CreateCategoryDto) {
+		const newCategory = await this.categoryService.create(dto)
+		if (!newCategory) throw new NotFoundException('Error')
+		return newCategory
 	}
 
 	@UsePipes(new ValidationPipe())
 	@Put(':id')
+	@Auth()
 	@HttpCode(200)
 	async update(
 		@Param('id', IdValidationPipe) id: string,
@@ -48,6 +49,7 @@ export class CategoryController {
 		return updateProject
 	}
 
+	@Auth()
 	@Delete(':id')
 	async delete(@Param('id', IdValidationPipe) id: string) {
 		const deletedDoc = await this.categoryService.delete(id)

@@ -1,23 +1,23 @@
 import { Module } from '@nestjs/common'
 import { TypegooseModule } from 'nestjs-typegoose'
+import { CategoryModule } from 'src/category/category.module'
 import { ProjectController } from './project.controller'
-import { ProjectModel } from './project.model'
+import { ProjectEntity } from './project.entity'
 import { ProjectService } from './project.service'
-import { UserModule } from 'src/user/user.module'
-import { CategoryEntity } from 'src/category/category.entity'
+
 
 @Module({
 	controllers: [ProjectController],
 	imports: [
 		TypegooseModule.forFeature([
 			{
-				typegooseClass: ProjectModel,
+				typegooseClass: ProjectEntity,
 				schemaOptions: {
 					collection: 'Project',
 				},
 			},
 		]),
-		CategoryEntity,
+		CategoryModule,
 	],
 	providers: [ProjectService],
 	exports: [ProjectService],

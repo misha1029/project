@@ -20,7 +20,7 @@ const AuthItems: FC = () => {
 						item={{
 							icon: 'MdOutlineLock',
 							link: '/project',
-							title: 'Project information',
+							title: 'Projects',
 						}}
 					/>
 				</>

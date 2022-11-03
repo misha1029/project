@@ -6,31 +6,15 @@ import { toastr } from 'react-redux-toastr'
 import { ProjectService } from 'services/project.service'
 import { getKeys } from 'utils/object/getKeys'
 import { toastrError } from 'utils/toastrError/toastrError'
+
 import { IProjectEditInput } from './project-edit.interface'
 
-
-
-export const useProjectEdit = (setValue: UseFormSetValue<IProjectEditInput>) => {
-
+export const useProjectEdit = (
+	setValue: UseFormSetValue<IProjectEditInput>
+) => {
 	const { push, query } = useRouter()
 
 	const projectId = String(query.id)
-
-	const { isLoading } = useQuery(
-		['project', projectId],
-		() => ProjectService.getById(projectId),
-		{
-			onSuccess: ({ data }) => {
-				getKeys(data).forEach((key) => {
-					setValue(key, data[key])
-				})
-			},
-			onError: (error) => {
-				toastrError(error, 'Get project')
-			},
-			enabled: !!query.id,
-		}
-	)
 
 	const { mutateAsync } = useMutation(
 		'update project',
@@ -41,7 +25,7 @@ export const useProjectEdit = (setValue: UseFormSetValue<IProjectEditInput>) => 
 			},
 			onSuccess() {
 				toastr.success('Update project', 'update was successfull')
-                push(getAdminUrl('projects'))
+				push(getAdminUrl('/'))
 			},
 		}
 	)
@@ -50,5 +34,5 @@ export const useProjectEdit = (setValue: UseFormSetValue<IProjectEditInput>) => 
 		await mutateAsync(data)
 	}
 
-    return {onSubmit, isLoading}
+	return { onSubmit }
 }

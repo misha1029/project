@@ -5,9 +5,10 @@ import {
 } from '@nestjs/common'
 import { ModelType, DocumentType } from '@typegoose/typegoose/lib/types'
 import { InjectModel } from 'nestjs-typegoose'
-import { ProjectModel } from 'src/project/project.model'
+import { ProjectEntity } from 'src/project/project.entity'
 import { CategoryEntity } from './category.entity'
 import { CreateCategoryDto } from './dto/create-category.dto'
+import * as mongoose from 'mongoose'
 
 @Injectable()
 export class CategoryService {
@@ -17,22 +18,20 @@ export class CategoryService {
 	) {}
 
 	async create(createCategoryDto: CreateCategoryDto): Promise<CategoryEntity> {
-		const text = createCategoryDto
 		try {
-			const category = await this.categoryEntity.create(text)
-			return category
+		  const category = await this.categoryEntity.create(createCategoryDto)
+		  return category
 		} catch (error) {
-			if (error === '23505') {
-				throw new ConflictException('Error Category')
-			} else {
-				throw new InternalServerErrorException()
-			}
+		  if (error === '23505') {
+			throw new ConflictException('Error Category')
+		  } else {
+			throw new InternalServerErrorException()
+		  }
 		}
-	}
+	  }
 
 	async getAll(): Promise<DocumentType<CategoryEntity>[]> {
 		let options = {}
-
 		return this.categoryEntity.aggregate().sort({ createdAt: -1 }).exec()
 	}
 
@@ -45,5 +44,9 @@ export class CategoryService {
 
 	async delete(id: string): Promise<DocumentType<CategoryEntity> | null> {
 		return this.categoryEntity.findByIdAndDelete(id).exec()
+	}
+
+	async findCategories(projectId: string): Promise<DocumentType<CategoryEntity>[]> {
+		return this.categoryEntity.find({ projectId })
 	}
 }

@@ -1,6 +1,6 @@
 import { prop, Ref } from '@typegoose/typegoose'
 import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses'
-import { ProjectModel } from 'src/project/project.model'
+import { ProjectEntity } from 'src/project/project.entity'
 import * as mongoose from 'mongoose'
 
 export interface UserModel extends Base {}
@@ -12,6 +12,6 @@ export class UserModel extends TimeStamps {
 	@prop()
 	password: string
 
-	@prop({ ref: () => ProjectModel })
-	project: Ref<ProjectModel>[]
+	@prop({ ref: () => ProjectEntity })
+	project: Ref<ProjectEntity>[]
 }

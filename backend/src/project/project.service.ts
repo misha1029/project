@@ -2,59 +2,37 @@ import { Injectable } from '@nestjs/common'
 import { ModelType, DocumentType } from '@typegoose/typegoose/lib/types'
 import { Types } from 'mongoose'
 import { InjectModel } from 'nestjs-typegoose'
-import { ProjectModel } from './project.model'
+import { ProjectEntity } from './project.entity'
 import { CreateProjectDto } from './dto/create-project.dto'
-import { UserModel } from 'src/user/user.model'
+import { UpdateProjectDto } from './dto/update-project.dto'
 
 @Injectable()
 export class ProjectService {
 	constructor(
-		@InjectModel(ProjectModel)
-		private readonly projectModel: ModelType<ProjectModel>,
+		@InjectModel(ProjectEntity)
+		private readonly projectModel: ModelType<ProjectEntity>
 	) {}
 
-	async getAll(): Promise<DocumentType<ProjectModel>[]> {
-		let options = {}
-
-		return (
-			this.projectModel
-				.aggregate()
-				.match(options)
-				.project({ __v: 0, updatedAt: 0, movies: 0 })
-				.sort({ createdAt: -1 })
-				.exec()
-		)
+	async getAll(userId: string): Promise<DocumentType<ProjectEntity>[]> {
+		return this.projectModel.find({ userId })
 	}
 
-	async byName(name: string): Promise<DocumentType<ProjectModel>> {
-		return this.projectModel.findOne({ name }).exec()
-	}
-
-	
-
-	async byId(id: string): Promise<DocumentType<ProjectModel>> {
+	async byId(id: string): Promise<DocumentType<ProjectEntity>> {
 		return this.projectModel.findById(id).exec()
 	}
 
-	async create(): Promise<Types.ObjectId> {
-		const defaultValue: CreateProjectDto = {
-			name: '',
-			description: '',
-			user: [],
-			
-		}
-		const project = await this.projectModel.create(defaultValue)
-		return project._id
+	async create(dto: CreateProjectDto): Promise<DocumentType<ProjectEntity>> {
+		return this.projectModel.create(dto)
 	}
 
 	async update(
 		id: string,
-		dto: CreateProjectDto
-	): Promise<DocumentType<ProjectModel> | null> {
+		dto: UpdateProjectDto
+	): Promise<DocumentType<ProjectEntity> | null> {
 		return this.projectModel.findByIdAndUpdate(id, dto, { new: true }).exec()
 	}
 
-	async delete(id: string): Promise<DocumentType<ProjectModel> | null> {
+	async delete(id: string): Promise<DocumentType<ProjectEntity> | null> {
 		return this.projectModel.findByIdAndDelete(id).exec()
 	}
 }

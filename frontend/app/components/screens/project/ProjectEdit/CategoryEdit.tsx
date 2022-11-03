@@ -1,6 +1,7 @@
 import { Button } from 'components/ui/form-elements/Button'
 import Field from 'components/ui/form-elements/Field'
 import { Heading } from 'components/ui/heading/Heading'
+import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -18,12 +19,19 @@ export const CategoryEdit: FC = () => {
 		mode: 'onChange',
 	})
 
+	const { query } = useRouter()
+
 	const { onSubmit } = useCategoryEdit()
+
+	const addCategory = (data: any) => {
+		const projectId = String(query.id)
+		onSubmit({ ...data, projectId })
+	}
 
 	return (
 		<>
-			<Heading title="Edit Category" />
-			<form onSubmit={handleSubmit(onSubmit)} className={stylesForm.form}>
+			<Heading title="Create Category" className="mt-6" />
+			<form onSubmit={handleSubmit(addCategory)} className={stylesForm.form}>
 				<>
 					<div className={stylesForm.fields}>
 						<Field

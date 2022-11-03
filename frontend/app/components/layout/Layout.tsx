@@ -15,7 +15,7 @@ const Layout = ({ children }: LayoutProps) => {
 			<div className={styles.center}>{children}</div>
 			<div>
 				<div className="px-layout mt-10 block">
-					<Heading title="LeftMenu" className="mb-8 text-xl" />
+					<Heading title="RightMenu" className="mb-8 text-xl" />
 				</div>
 			</div>
 		</div>

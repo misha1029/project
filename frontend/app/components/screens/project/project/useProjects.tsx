@@ -9,12 +9,10 @@ import { ProjectService } from 'services/project.service'
 
 import { toastrError } from 'utils/toastrError/toastrError'
 
-import { ITableItem } from '../AdminTable/table.interface'
+import { ITableItem } from '../Table/table.interface'
 
 export const useProjects = () => {
 	const [searchTerm, setSearchTerm] = useState('')
-
-	
 
 	const queryData = useQuery(
 		['project list'],
@@ -54,24 +52,7 @@ export const useProjects = () => {
 		}
 	)
 
-	const {push} = useRouter()
-
-	const { mutateAsync: createAsync } = useMutation(
-		'create project',
-		() => ProjectService.create(),
-		{
-			onError: (error) => {
-				toastrError(error, 'create project')
-			},
-            onSuccess: ({data:_id}) => {
-                toastr.success('Create project', 'create was successful')
-                push(getAdminUrl(`project/edit/${_id}`))
-            }
-		}
-	)
-
-
     return useMemo(() => ({
-        handleSearch, ...queryData, searchTerm, deleteAsync, createAsync
-    }), [queryData,searchTerm, deleteAsync, createAsync ])
+        handleSearch, ...queryData, searchTerm, deleteAsync, 
+    }), [queryData,searchTerm, deleteAsync ])
 }

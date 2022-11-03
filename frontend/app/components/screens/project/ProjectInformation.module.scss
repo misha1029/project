@@ -1,0 +1,7 @@
+.statistics {
+    @apply flex items-stretch mt-10;
+
+    .block {
+        @apply air-block w-2/5;
+    }
+}
